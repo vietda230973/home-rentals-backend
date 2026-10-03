@@ -29,12 +29,12 @@
 	<properties>
 		<java.version>21</java.version>
 		<maven.version>3.6.3</maven.version>
-		<spring-boot.version>4.0.6</spring-boot.version>
 		<guava.version>33.6.0-jre</guava.version>
 		<commons-collections4.version>4.5.0</commons-collections4.version>
 		<mapstruct.version>1.6.3</mapstruct.version>
 		<lombok.version>1.18.46</lombok.version>
 		<archunit-junit5.version>1.4.2</archunit-junit5.version>
+		<apiPackage>fr.vietda.rentals.home.controller</apiPackage>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -43,15 +43,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webservices</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webservices-test</artifactId>
             <scope>test</scope>
@@ -79,10 +70,6 @@
 		    <artifactId>mysql-connector-j</artifactId>
 		</dependency>
 		
-			<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-commons</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -103,23 +90,19 @@
 			<version>${mapstruct.version}</version>
 		</dependency>
 		
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>2.1.13</version>
-			<scope>compile</scope>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>io.swagger.core.v3</groupId>-->
+<!--			<artifactId>swagger-annotations</artifactId>-->
+<!--			<version>2.1.13</version>-->
+<!--			<scope>compile</scope>-->
+<!--		</dependency>-->
 		
 		<dependency>
 		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>org.springdoc</groupId>
-		    <artifactId>springdoc-openapi-ui</artifactId>
-		    <version>1.7.0</version>
+		    <artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
@@ -134,6 +117,26 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+<!--		<dependency>-->
+<!--		   <groupId>io.springfox</groupId>-->
+<!--		   <artifactId>springfox-swagger2</artifactId>-->
+<!--		   <version>2.1.2</version>-->
+<!--		</dependency>-->
+<!--		<dependency>-->
+<!--		   <groupId>io.springfox</groupId>-->
+<!--		   <artifactId>springfox-swagger-ui</artifactId>-->
+<!--		   <version>2.1.2</version>-->
+<!--		</dependency>-->
+		
+		<dependency>
+	      <groupId>org.springdoc</groupId>
+	      <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+	      <version>3.0.0</version>
+	   </dependency>
+		
+		
+
 	</dependencies>
 
 	<build>
@@ -151,7 +154,6 @@
                             <path>
                                 <groupId>org.springframework.boot</groupId>
                                 <artifactId>spring-boot-configuration-processor</artifactId>
-                                <version>${spring-boot.version}</version>
                             </path>
                             <path>
 				                 <groupId>org.projectlombok</groupId>
@@ -163,11 +165,11 @@
                                 <artifactId>mapstruct-processor</artifactId>
                                 <version>${mapstruct.version}</version>
                             </path>
-				             <dependency>
-				                 <groupId>org.projectlombok</groupId>
-				                 <artifactId>lombok-mapstruct-binding</artifactId>
-				                 <version>0.2.0</version>
-				             </dependency>
+				            <path>
+							    <groupId>org.projectlombok</groupId>
+							    <artifactId>lombok-mapstruct-binding</artifactId>
+							    <version>0.2.0</version>
+							</path>
                             <!-- For JPA static metamodel generation -->
                             <path>
                                 <groupId>org.hibernate.orm</groupId>

@@ -1,5 +1,7 @@
 package fr.vietda.rentals.home.config;
 
+import java.nio.charset.StandardCharsets;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
@@ -29,34 +31,58 @@ public class SpringSecurityConfig {
 
 	private String jwtKey = "v9y$B&E)H@McQfTjWmZq4t7w!z%C*F-JaNdRgUkXp2s5u8x/A?D(G+KbPeShVmYq";
 
+//	private static final String[] AUTH_WHITELIST = {
+//            "/swagger-resources",
+//            "/swagger-resources/**",
+//            "/configuration/ui",
+//            "/configuration/security",
+//            "/swagger-ui.html",
+//            "/api/public/**",
+//            "/api/public/authenticate",
+//            "/actuator/*",
+//            "/swagger-ui/**",
+//            "/api/auth/**",
+//            "/v3/api-docs/**",
+//            "/docs/**",
+//            "/webjars/**"
+//            };
+	
+	private static final String[] AUTH_WHITELIST = {
+	        "/swagger-ui.html",
+	        "/swagger-ui/**",
+	        "/v3/api-docs",
+	        "/v3/api-docs/**",
+	        "/webjars/**",
+	        "/api/public/**",
+	        "/api/auth/**",
+	        "/actuator/*"
+	};
+	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		return http.csrf(csrf -> csrf.disable())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 		                // Autorise explicitement toutes les routes d'authentification
-		                .requestMatchers("/api/auth/**").permitAll()
+		                .requestMatchers(AUTH_WHITELIST).permitAll()
 		                // Toutes les autres requêtes nécessitent une authentification
 		                .anyRequest().authenticated())
 				.oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()))
 				.httpBasic(Customizer.withDefaults()).build();
 	}
 
-
 	@Bean
 	public JwtEncoder jwtEncoder() {
-
-		// Conversion en SecretKey avec le nom d'algorithme Java standard
-		SecretKey secretKey = new SecretKeySpec(jwtKey.getBytes(), "HmacSHA256");
-
-		JWKSource<SecurityContext> jwks = new ImmutableSecret<>(secretKey);
-		return new NimbusJwtEncoder(jwks);
+		return new NimbusJwtEncoder(new ImmutableSecret<>(secretKey()));
+	}
+	
+	private SecretKey secretKey() {
+	    return new SecretKeySpec(jwtKey.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
 	}
 
 	@Bean
 	public JwtDecoder jwtDecoder() {
-		SecretKeySpec secretKey = new SecretKeySpec(this.jwtKey.getBytes(), 0, this.jwtKey.getBytes().length, "RSA");
-		return NimbusJwtDecoder.withSecretKey(secretKey).macAlgorithm(MacAlgorithm.HS256).build();
+		return NimbusJwtDecoder.withSecretKey(secretKey()).macAlgorithm(MacAlgorithm.HS256).build();
 	}
 
 	@Bean
