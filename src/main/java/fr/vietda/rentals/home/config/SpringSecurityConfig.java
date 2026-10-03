@@ -44,7 +44,7 @@ public class SpringSecurityConfig {
 //            "/api/auth/**",
 //            "/v3/api-docs/**",
 //            "/docs/**",
-//            "/webjars/**"
+//            "/webjars/**"O
 //            };
 	
 	private static final String[] AUTH_WHITELIST = {
