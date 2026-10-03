@@ -1,7 +1,5 @@
 package fr.vietda.rentals.home.model.dto;
 
-import java.util.List;
-
 public class RentalsReponseAllDto {
 	
 	private RentalsDto[] rentals;

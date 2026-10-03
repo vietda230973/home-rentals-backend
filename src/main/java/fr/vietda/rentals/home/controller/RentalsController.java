@@ -22,6 +22,7 @@ import fr.vietda.rentals.home.model.dto.RentalsReponseAllDto;
 import fr.vietda.rentals.home.model.dto.RentalsReponseDto;
 import fr.vietda.rentals.home.service.rentals.RentalsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 
 @RestController
@@ -35,21 +36,25 @@ public class RentalsController {
 		this.rentalsService = rentalsService;
 	}
 
+	@Tag(name = "get", description = "GET methode pour tous les rentals API")
 	@GetMapping
-	@Operation(summary = "List tous rentals")
+	@Operation(summary = "Liste tous rentals", description = "Recupérer tous rentals. La réponse est la liste des objets RentalsDto. ")
 	public ResponseEntity<RentalsReponseAllDto> listOrders() {
 		RentalsReponseAllDto rentalsDto = new RentalsReponseAllDto();
 		rentalsDto.setRentals(rentalsService.recupererTousRentals().toArray(new RentalsDto[0]));
 		return ResponseEntity.ok(rentalsDto);
 	}
 	
+	@Tag(name = "get", description = "GET methode pour recupérer les détails d'un rental API")
 	@GetMapping("/{id}")
-	@Operation(summary = "Récupérer les détails d'un rentals")
+	@Operation(summary = "Récupérer les détails d'un rentals", description = "Recupérer les détails d'un rental. La réponse est un objet RentalsDto. ")
     public ResponseEntity<RentalsDto> detailRentals(@PathVariable int id) throws EntityNotFoundException, ParseException {
         return ResponseEntity.ok(rentalsService.recupererRentalsParId(id));
     }
 	
+	@Tag(name = "Post", description = "POST methode pour créer un rental API")
 	@PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@Operation(summary = "Créer d'un nouveau rentals", description = "Créer d'un nouveau rentals. La réponse est un objet RentalsDto du rentals cré. ")
 	public ResponseEntity<RentalsReponseDto> creer( @RequestParam("name") String name,
 	        @RequestParam("surface") BigDecimal surface,
 	        @RequestParam("price") BigDecimal price,
@@ -71,12 +76,13 @@ public class RentalsController {
 	    return ResponseEntity.status(HttpStatus.CREATED).body(rentalsReponse);
 	}
 
-	
+	@Tag(name = "Put", description = "PUT methode pour mettre à jour un rental API")
 	@PutMapping("/update/{id}")
+	@Operation(summary = "Mettre à jour un rentals", description = "Mettre à jour un rentals. La réponse est un objet RentalsDto du rentals modifié. ")
     public ResponseEntity<RentalsReponseDto> updateRendezVous(@PathVariable int id, @RequestBody RentalsDto rendezvousDetails) throws EntityNotFoundException, ParseException {
         rentalsService.mettreAJourRentals(id, rendezvousDetails);
         RentalsReponseDto rentalsReponse = new RentalsReponseDto();
-	    rentalsReponse.setMessage("Rentals " + id +  "  est crée.");
+	    rentalsReponse.setMessage("Rentals " + id +  "  est mis à jour.");
         return ResponseEntity.ok(rentalsReponse);
     }
 

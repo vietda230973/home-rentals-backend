@@ -9,9 +9,9 @@ import io.swagger.v3.oas.annotations.info.Info;
 
 @OpenAPIDefinition(
 		info = @Info(
-				title = "Student API",
+				title = "Rentals API",
 				version = "1.0",
-				description = "API documentation for managing students"
+				description = "API documentation pour les rentals"
 		)
 )
 @SpringBootApplication
@@ -20,11 +20,4 @@ public class HomeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(HomeApplication.class, args);
 	}
-	
-//	@Bean
-//	public Docket productApi() {
-//		return new Docket(DocumentationType.SWAGGER_2).select()
-//				.apis(RequestHandlerSelectors.basePackage("com.tutorialspoint.swaggerdemo")).build();
-//	}
-
 }
