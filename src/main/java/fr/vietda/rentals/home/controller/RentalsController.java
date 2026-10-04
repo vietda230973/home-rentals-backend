@@ -38,7 +38,7 @@ public class RentalsController {
 
 	@Tag(name = "get", description = "GET methode pour tous les rentals API")
 	@GetMapping
-	@Operation(summary = "Liste tous rentals", description = "Recupérer tous rentals. La réponse est la liste des objets RentalsDto. ")
+	@Operation(summary = "Lister tous rentals", description = "Recupérer tous rentals. La réponse est la liste des objets RentalsDto. ")
 	public ResponseEntity<RentalsReponseAllDto> listOrders() {
 		RentalsReponseAllDto rentalsDto = new RentalsReponseAllDto();
 		rentalsDto.setRentals(rentalsService.recupererTousRentals().toArray(new RentalsDto[0]));
